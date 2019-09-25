@@ -22,6 +22,7 @@ const setting = {
     speed: 3,
     traffic: 3
 };
+const audio = new Audio('./music.mp3');
 
 function getQuantityElements(heightElement){
     return document.documentElement.clientHeight / heightElement + 1;
@@ -47,6 +48,8 @@ for (let i = 0; i< getQuantityElements(100 * setting.traffic); i++ ){
     gameArea.appendChild(enemy);
 
 }
+
+audio.play();
     setting.score = 0;
     setting.start = true;
     gameArea.appendChild(car);
@@ -87,12 +90,17 @@ function playGame(){
 } 
 function startRun(event){
     event.preventDefault();
-    keys[event.key] = true;
+    if (keys.hasOwnProperty(event.key)){
+        keys[event.key] = true;
+    }
 }
 
 function stopRun(event){
     event.preventDefault();
-    keys[event.key] = false;
+    if (keys.hasOwnProperty(event.key)){
+        keys[event.key] = false;
+    }
+    
 }
 
 function moveRoad(){
@@ -117,6 +125,7 @@ function moveEnemy(){
                 carRect.right >= enemyRect.left &&
                 carRect.left <= enemyRect.right &&
                 carRect.bottom >= enemyRect.top){
+                audio.pause();
                 setting.start = false;
                 start.classList.remove('hide');
                 start.style.top = score.offsetHeight;
